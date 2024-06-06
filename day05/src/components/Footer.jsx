@@ -1,8 +1,11 @@
 const Footer = () =>{
     return(
-        <div>
-            <h1></h1>
-        </div>
+        <footer style={{
+            background:'#280044',
+            height: '600px'
+        }}>
+
+        </footer>
     )
 }
 export default Footer;
