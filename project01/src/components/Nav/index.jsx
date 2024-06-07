@@ -55,7 +55,7 @@ const Nav = () =>{
                 <li>
                     <Link to="/contact-us" className="contact-us-btn" style={{
                         textDecoration: 'none',
-                        color:'#323232',
+                        color:'white',
                         fontSize: 17,
                         background: '#8700ff',
                         padding: '12px 30px',
