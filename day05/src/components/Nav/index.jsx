@@ -1,4 +1,5 @@
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import './nav.css'
 const Nav = () =>{
     return (
         <nav style={{
@@ -52,7 +53,7 @@ const Nav = () =>{
                 </li>
 
                 <li>
-                    <Link to="/contact-us" style={{
+                    <Link to="/contact-us" className="contact-us-btn" style={{
                         textDecoration: 'none',
                         color:'#323232',
                         fontSize: 17,

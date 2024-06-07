@@ -2,6 +2,7 @@ import {
   BrowserRouter, 
   Routes, 
   Route} from 'react-router-dom';
+import 'remixicon/fonts/remixicon.css';
 import Home from './components/Home';
 import Teachers from './components/Teachers';
 import Holidays from './components/Holidays';
