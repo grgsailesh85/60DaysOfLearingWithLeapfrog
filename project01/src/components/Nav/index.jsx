@@ -1,5 +1,23 @@
 import {Link} from 'react-router-dom';
 import './nav.css'
+const menus = [
+    {
+        label:'Home',
+        href: '/'
+    },
+    {
+        label:'Teachers',
+        href: '/teachers'
+    },
+    {
+        label:'Holidays',
+        href: '/holidays'
+    },
+    {
+        label:'Contact Us',
+        href: '/contact-us'
+    },
+]
 const Nav = () =>{
     return (
         <nav style={{
@@ -28,40 +46,19 @@ const Nav = () =>{
                 alignItems: 'center',
                 gap: 32
             }}>
-                <li>
-                    <Link to="/" style={{
-                        textDecoration: 'none',
-                        color:'#323232',
-                        fontSize: 17
-                    }}>Home</Link>
-                </li>
-
-                <li>
-                    <Link to="/teachers" style={{
-                        textDecoration: 'none',
-                        color:'#323232',
-                        fontSize: 17
-                    }}>Teachers</Link>
-                </li>
-
-                <li>
-                    <Link to="/holidays" style={{
-                        textDecoration: 'none',
-                        color:'#323232',
-                        fontSize: 17
-                    }}>Holidays</Link>
-                </li>
-
-                <li>
-                    <Link to="/contact-us" className="contact-us-btn" style={{
-                        textDecoration: 'none',
-                        color:'white',
-                        fontSize: 17,
-                        background: '#8700ff',
-                        padding: '12px 30px',
-                        borderRadius: '4px',
-                    }}>Contact Us</Link>
-                </li>
+                {
+                    menus.map(function(menu){
+                        return(
+                            <li>
+                                <Link to={menu.href} style={{
+                                    textDecoration: 'none',
+                                    color:'#323232',
+                                    fontSize: 17
+                                }}>{menu.label}</Link>
+                            </li> 
+                        )
+                    })
+                }
             </ul>
         </nav>
     )
