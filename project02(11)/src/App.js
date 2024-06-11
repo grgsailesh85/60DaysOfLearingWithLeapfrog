@@ -1,7 +1,5 @@
 import {useState} from 'react';
-
 const App = () =>{
-
   const [showImage,setShowImage] = useState(true)
   const [bgDiv, setBgDiv] = useState('red')
   const [input,setInput] = useState(" ")
