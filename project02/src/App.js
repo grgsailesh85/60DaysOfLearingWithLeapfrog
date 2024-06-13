@@ -5,7 +5,11 @@ const App = () =>{
   const [input,setInput] = useState(" ")
   const [fontSize , setFontSize] = useState(30)
   const [color,setColor] = useState("red")
+  const [list,setList] = useState()
 
+  const addList =() =>{
+    alert()
+  }
   return(
     <div style={{
       minHeight:'100vh',
@@ -129,7 +133,6 @@ const App = () =>{
             marginTop:'16px'
           }}/>
         </div>
-        
       </div>
     </div>
   )
