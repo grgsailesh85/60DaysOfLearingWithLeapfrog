@@ -47,9 +47,9 @@ const Nav = () =>{
                 gap: 32
             }}>
                 {
-                    menus.map(function(menu){
+                    menus.map(function(menu, index){
                         return(
-                            <li>
+                            <li key={index}>
                                 <Link to={menu.href} style={{
                                     textDecoration: 'none',
                                     color:'#323232',
