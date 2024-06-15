@@ -82,7 +82,7 @@ const App = ()=>{
           padding: 0,
           margin: 0,
           textAlign: 'center'
-        }}>CodingOtt</h1>
+        }}>CRUD App Using React useState</h1>
 
         <button 
           onClick={handleDrawer}
