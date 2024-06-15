@@ -3,15 +3,17 @@ import 'remixicon/fonts/remixicon.css'
 import './App.css'
 
 const App = ()=>{
-  const [right, setRight] = useState(-450)
-  const [students, setStudents] = useState([])
-  const [form, setForm] = useState({
+  const model = {
     fullname: '',
     class: '',
     roll: '',
     subject: '',
     dob: ''
-  })
+  }
+  const [editIndex, setEditIndex] = useState(null)
+  const [right, setRight] = useState(-450)
+  const [students, setStudents] = useState([])
+  const [form, setForm] = useState(model)
 
   const handleDrawer = ()=>{
     setRight(0)
@@ -33,13 +35,7 @@ const App = ()=>{
       ...students,
       form
     ])
-    setForm({
-      fullname: '',
-      class: '',
-      roll: '',
-      subject: '',
-      dob: ''
-    })
+    setForm(model)
     setRight(-450)
   }
 
@@ -47,6 +43,28 @@ const App = ()=>{
     const backup = [...students]
     backup.splice(index, 1)
     setStudents(backup)
+  }
+
+  const editStudent = (index)=>{
+    setRight(0)
+    setForm(students[index])
+    setEditIndex(index)
+  }
+
+  const saveStudent = (e)=>{
+    e.preventDefault()
+    const backup = [...students]
+    backup[editIndex] = form
+    setStudents(backup)
+    setForm(model)
+    setEditIndex(null)
+    setRight(-450)
+  }
+
+  const closeDrawer = () =>{
+    setRight(-450)
+    setForm(model)
+    setEditIndex(null)
   }
 
   return (
@@ -107,14 +125,16 @@ const App = ()=>{
                   <td>{item.dob}</td>
                   <td>
                     <div>
-                      <button style={{
-                        border: 'none',
-                        width: 32,
-                        height: 32,
-                        background: '#07c65d',
-                        color: 'white',
-                        borderRadius: 4,
-                        marginRight: 12
+                      <button 
+                        onClick={()=>editStudent(index)}
+                        style={{
+                          border: 'none',
+                          width: 32,
+                          height: 32,
+                          background: '#07c65d',
+                          color: 'white',
+                          borderRadius: 4,
+                          marginRight: 12
                       }}>
                         <i className="ri-image-edit-line"></i>
                       </button>
@@ -154,7 +174,7 @@ const App = ()=>{
         transition: '0.3s'
       }}>
         <button 
-          onClick={()=>setRight(-450)}
+          onClick={closeDrawer}
           style={{
             border: 'none',
             background: 'transparent',
@@ -169,9 +189,9 @@ const App = ()=>{
         </button>
         <h1>New Student</h1>
 
-        <form 
-            onSubmit={createStudent}
-            style={{
+        <form
+          onSubmit={editIndex === null ? createStudent : saveStudent}
+          style={{
             display: 'flex',
             flexDirection: 'column',
             gap: 24
@@ -246,14 +266,27 @@ const App = ()=>{
             }}
           />
 
-          <button style={{
-            border: 'none',
-            background: '#8407BA',
-            color: 'white',
-            fontSize: 16,
-            padding: '14px 0',
-            borderRadius: 4
-          }}>SUBMIT</button>
+          {
+            editIndex === null ?
+            <button style={{
+              border: 'none',
+              background: '#8407BA',
+              color: 'white',
+              fontSize: 16,
+              padding: '14px 0',
+              borderRadius: 4
+            }}>SUBMIT</button>
+            :
+            <button style={{
+              border: 'none',
+              background: 'deeppink',
+              color: 'white',
+              fontSize: 16,
+              padding: '14px 0',
+              borderRadius: 4
+            }}>SAVE</button>
+          }
+
         </form>
       </aside>
     </div>
