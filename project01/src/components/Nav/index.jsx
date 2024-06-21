@@ -20,12 +20,14 @@ const menus = [
 ]
 const Nav = () =>{
     return (
-        <nav style={{
-            display: 'flex',
-            background: 'white',
-            justifyContent:'space-between',
-            padding: '8px 48px',
-            boxShadow: '0 8px 8px rgba(0,0,0,0.1)'
+        <nav 
+            className='sticky top-0 left-0 z-50'
+            style={{
+                display: 'flex',
+                background: 'white',
+                justifyContent:'space-between',
+                padding: '8px 48px',
+                boxShadow: '0 8px 8px rgba(0,0,0,0.1)'
         }}>
             <div style={{
                 display: 'flex',
@@ -37,7 +39,7 @@ const Nav = () =>{
                     alt="" 
                     width="60px"
                 />
-                <h1>SaileshGrg</h1>
+                <h1 className='text-2xl font-bold'>SaileshGrg</h1>
             </div>
 
             <ul style={{
