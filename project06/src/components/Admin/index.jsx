@@ -27,7 +27,7 @@ const Admin = () =>{
                             >
                                 <i className="ri-menu-2-line text-xl"></i>
                             </button>
-                            <h1 className="text-md font-semibold">SHOP_Code</h1>
+                            <h1 className="text-md font-semibold">SHOP<span className='text-orange-600 font-extrabold'>_Code</span></h1>
                         </div>
 
                         <div>
