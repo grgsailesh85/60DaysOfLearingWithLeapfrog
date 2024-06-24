@@ -1,5 +1,5 @@
 import {useState} from 'react'
-const Admin = () =>{
+const Layout = ({children}) =>{
     const [size, setSize] = useState(280)
     const [accountMenu, setAccounMenu] = useState(false)
 
@@ -14,12 +14,12 @@ const Admin = () =>{
 
             </aside>
             <section 
-                className="bg-gray-100 h-screen"
+                className="bg-gray-200 min-h-screen"
                 style={{
                     marginLeft: size,
                     transition:'0.3s'
                 }}>
-                    <nav className="bg-white p-6 shadow flex items-center justify-between">
+                    <nav className="bg-white p-6 shadow flex items-center justify-between sticky top-0 left-0">
                         <div className="flex gap-4 items-center">
                             <button 
                                 className="bg-gray-50 hover:bg-indigo-600 hover:text-white w-8 h-8"
@@ -33,7 +33,7 @@ const Admin = () =>{
                         <div>
                             <button className='relative'>
                                 <img 
-                                    src="./images/avatar.jpg" 
+                                    src="/images/avatar.jpg" 
                                     alt="" 
                                     className='w-10 h-10 rounded-full'
                                     onClick={()=>setAccounMenu(!accountMenu)} />
@@ -55,8 +55,11 @@ const Admin = () =>{
                             </button>
                         </div>
                     </nav>
+                    <div className='p-6'>
+                        {children}
+                    </div>
             </section>
         </div>
     )
 }
-export default Admin
+export default Layout
