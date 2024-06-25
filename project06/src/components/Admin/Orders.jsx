@@ -129,7 +129,7 @@ const Orders = () =>{
                                         className="text-center" 
                                         key={index} 
                                         style={{
-                                            background: (index+1)%2 === 0 ? '#cbd5e1 ' : 'white'
+                                            background: (index+1)%2 === 0 ? '#cbd5e1' : '#cffafe'
                                     }}>
                                         <td className="py-4">{item.orderId}</td>
                                         <td className="capitalize">{item.customerName}</td>
