@@ -13,6 +13,11 @@ const Layout = ({children}) =>{
             link: '/admin/dashboard'
         },
         {
+            label:'Customers',
+            icon: <i className="ri-user-line mr-2"></i>,
+            link: '/admin/customers'
+        },
+        {
             label:'Products',
             icon: <i className="ri-shopping-cart-line mr-2"></i>,
             link: '/admin/products'
@@ -32,12 +37,6 @@ const Layout = ({children}) =>{
             icon: <i className="ri-settings-3-line mr-2"></i>,
             link: '/admin/settings'
         },
-        {
-            label:'LogOut',
-            icon: <i className="ri-logout-box-line mr-2"></i>,
-            link: '/admin/logout'
-        },
-        
     ]
 
     return(
@@ -50,24 +49,27 @@ const Layout = ({children}) =>{
                         width: size,
                         transition:'0.3s'
                 }}>
-                        <div className='flex flex-col'>
-                            {
-                                menus.map((item, index)=>(
-                                    <Link 
-                                        key={index} 
-                                        to={item.link} 
-                                        className='px-4 py-3 text-gray-50 text-[17.5px] hover:bg-rose-600 hover:text-white'
-                                        style={{
-                                            background: (location.pathname == item.link) ? '#E11D48' : 'transparent'
-                                        }}
-                                    >
-                                        {item.icon}
-                                        {item.label}                      
-                                    </Link>
-        
-                                ))
-                            }
-                        </div>
+                    <div className='flex flex-col'>
+                        {
+                            menus.map((item, index)=>(
+                                <Link 
+                                    key={index} 
+                                    to={item.link} 
+                                    className='px-4 py-3 text-gray-50 text-[17.5px] hover:bg-rose-600 hover:text-white'
+                                    style={{
+                                        background: (location.pathname == item.link) ? '#E11D48' : 'transparent'
+                                    }}
+                                >
+                                    {item.icon}
+                                    {item.label}                      
+                                </Link>                               
+                             ))
+                        }
+                        <button className='px-4 py-3 text-gray-50 text-left text-[17.5px] hover:bg-rose-600 hover:text-white'>
+                            <i className="ri-logout-box-line mr-2"></i>
+                            LogOut
+                        </button>
+                    </div>
                 </aside>
 
                 <section 
@@ -149,6 +151,10 @@ const Layout = ({children}) =>{
         
                                 ))
                             }
+                            <button className='px-4 py-3 text-gray-50 text-left text-[17.5px] hover:bg-rose-600 hover:text-white'>
+                                <i className="ri-logout-box-line mr-2"></i>
+                                LogOut
+                        </button>
                         </div>
                 </aside>
                 
