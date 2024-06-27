@@ -1,4 +1,6 @@
 import {Link} from 'react-router-dom'
+import 'remixicon/fonts/remixicon.css'
+
 const Layout = ({children}) =>{
     const menus = [
         {
@@ -35,7 +37,9 @@ const Layout = ({children}) =>{
                                     <Link 
                                         to={item.href}
                                         className='block py-6 text-center hover:bg-blue-600 w-[100px] hover:text-white'
-                                    >{item.label}</Link>
+                                    >
+                                        {item.label}
+                                    </Link>
                                 </li>
                             ))
                         }
