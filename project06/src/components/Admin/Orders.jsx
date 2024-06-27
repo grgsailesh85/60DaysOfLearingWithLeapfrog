@@ -122,6 +122,7 @@ const Orders = () =>{
                                 <th>Status</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {
                                 orders.map((item, index)=>(
@@ -129,7 +130,7 @@ const Orders = () =>{
                                         className="text-center" 
                                         key={index} 
                                         style={{
-                                            background: (index+1)%2 === 0 ? '#cbd5e1' : 'white'
+                                            background: (index+1)%2 === 0 ? '#f1f5f9' : 'white'
                                     }}>
                                         <td className="py-4">{item.orderId}</td>
                                         <td className="capitalize">{item.customerName}</td>

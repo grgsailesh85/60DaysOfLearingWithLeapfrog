@@ -1,9 +1,11 @@
 import {useState} from 'react'
 import {Link, useLocation} from 'react-router-dom'
+
 const Layout = ({children}) =>{
     const [size, setSize] = useState(280)
     const [mobileSize, setMobileSize] = useState(0)
     const [accountMenu, setAccounMenu] = useState(false)
+    // This hook is provided by react-router-dom and returns the location object which contains information about the current URL path. We can use this to determine the current route.
     const location = useLocation()
 
     const menus = [
@@ -13,14 +15,14 @@ const Layout = ({children}) =>{
             link: '/admin/dashboard'
         },
         {
-            label:'Customers',
-            icon: <i className="ri-user-line mr-2"></i>,
-            link: '/admin/customers'
-        },
-        {
             label:'Products',
             icon: <i className="ri-shopping-cart-line mr-2"></i>,
             link: '/admin/products'
+        },
+        {
+            label:'Customers',
+            icon: <i className="ri-user-line mr-2"></i>,
+            link: '/admin/customers'
         },
         {
             label:'Orders',
@@ -65,7 +67,9 @@ const Layout = ({children}) =>{
                                 </Link>                               
                              ))
                         }
-                        <button className='px-4 py-3 text-gray-50 text-left text-[17.5px] hover:bg-rose-600 hover:text-white'>
+                        <button 
+                            className='px-4 py-3 text-gray-50 text-left text-[17.5px] hover:bg-rose-600 hover:text-white'
+                        >
                             <i className="ri-logout-box-line mr-2"></i>
                             LogOut
                         </button>
@@ -128,38 +132,40 @@ const Layout = ({children}) =>{
                         width: mobileSize,
                         transition:'0.3s'
                 }}>
-                        <div className='flex flex-col'>
-                            <button 
-                                className='text-left mx-4 mt-4'
-                                onClick={()=>setMobileSize(mobileSize === 0 ? 280 : 0)}
-                            >
-                                <i className="ri-menu-2-fill text-white text-xl"></i>
-                            </button>
-                            {
-                                menus.map((item, index)=>(
-                                    <Link 
-                                        key={index} 
-                                        to={item.link} 
-                                        className='px-4 py-3 text-gray-50 text-[17.5px] hover:bg-rose-600 hover:text-white'
-                                        style={{
-                                            background: (location.pathname == item.link) ? '#E11D48' : 'transparent'
-                                        }}
-                                    >
-                                        {item.icon}
-                                        {item.label}                      
-                                    </Link>
-        
-                                ))
-                            }
-                            <button className='px-4 py-3 text-gray-50 text-left text-[17.5px] hover:bg-rose-600 hover:text-white'>
-                                <i className="ri-logout-box-line mr-2"></i>
-                                LogOut
+                    <div className='flex flex-col'>
+                        <button 
+                            className='text-left mx-4 mt-4'
+                            onClick={()=>setMobileSize(mobileSize === 0 ? 280 : 0)}
+                        >
+                            <i className="ri-menu-2-fill text-white text-xl"></i>
                         </button>
-                        </div>
+                        {
+                            menus.map((item, index)=>(
+                                <Link                                         key={index} 
+                                    to={item.link} 
+                                    className='px-4 py-3 text-gray-50 text-[17.5px] hover:bg-rose-600 hover:text-white'
+                                    // If the current path matches the item's link, the background color is set to #E11D48. Otherwise, it remains transparent.
+                                    style={{
+                                        background: (location.pathname == item.link) ? '#E11D48' : 'transparent'
+                                    }}
+                                >
+                                    {item.icon}
+                                    {item.label}                      
+                                </Link>
+        
+                            ))
+                        }
+                        <button 
+                            className='px-4 py-3 text-gray-50 text-left text-[17.5px] hover:bg-rose-600 hover:text-white'>
+                            <i className="ri-logout-box-line mr-2"></i>
+                            LogOut
+                        </button>
+                    </div>
                 </aside>
                 
                 <section 
-                    className="bg-gray-200 min-h-screen">
+                    className="bg-gray-200 min-h-screen"
+                >
                         <nav className="bg-white p-6 shadow flex items-center justify-between sticky top-0 left-0">
                             <div className="flex gap-4 items-center">
                                 <button 

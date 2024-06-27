@@ -11,7 +11,6 @@ import Dashboard from './components/Admin/Dashboard'
 import Customers from './components/Admin/Customers'
 import Payments from './components/Admin/Payments'
 import Settings from './components/Admin/Settings'
-import Admin from './components/Admin'
 
 
 
@@ -26,7 +25,6 @@ const App = () =>{
           <Route path="payments" element={<Payments/>}/>
           <Route path="settings" element={<Settings/>}/>
           <Route path="customers" element={<Customers/>}/>
-          <Route path="auth" element={<Admin/>}/>
         </Route>
         <Route  path="*" element={<NotFound/>}/>
       </Routes>

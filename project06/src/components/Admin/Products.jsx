@@ -1,5 +1,5 @@
 import { useState } from "react"
-import Layout from "../Layout"
+import Layout from "./Layout"
 const Products =()=>{
     const [products , setProducts] = useState([
         {
@@ -98,17 +98,16 @@ const Products =()=>{
                                 <img 
                                     src={item.images} 
                                     alt=""
-                                    className="rounded-t-md h-[250px] w-full object-fit"
+                                    className="rounded-t-md h-[270px] w-full object-cover"
 
                                 />
                                 <div className="p-4">
                                     <h1 className="text-lg capitalize font-semibold">{item.title}</h1>
-                                    <p className="text-gray-500">{item.description.slice(0,50)}</p>
-                                    <div className="flex gap-3 mt-1">
-                                        <p>{item.price-(item.price*item.discount)/100}</p>
+                                    <p className="text-gray-600">{item.description.slice(0,50)}</p>
+                                    <div className="flex gap-1 mt-1">
+                                        <p>Rs{item.price-(item.price*item.discount)/100}</p>
                                         <del>Rs{item.price}</del>
                                         <label className="text-gray-600"> ({item.discount}% Off) </label>
-
                                     </div>
                                 </div>
                             </div>
