@@ -13,8 +13,6 @@ import Payments from './components/Admin/Payments'
 import Settings from './components/Admin/Settings'
 import Home from './components/Home'
 
-
-
 const App = () =>{
   return(
     <BrowserRouter>
