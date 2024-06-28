@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom'
 import 'remixicon/fonts/remixicon.css'
 
+
 const Layout = ({children}) =>{
     const menus = [
         {
@@ -30,7 +31,11 @@ const Layout = ({children}) =>{
                         className="w-[100px]"
                     />
 
-                    <ul className='flex gap-4 items-center'>
+                    <button className='md:hidden'>
+                        <i className="ri-menu-2-line text-3xl"></i>
+                    </button>
+
+                    <ul className='md:flex gap-4 items-center hidden'>
                         {
                             menus.map((item,index) =>(
                                 <li key={index}>
@@ -64,7 +69,7 @@ const Layout = ({children}) =>{
             </div>
 
             <footer className='bg-orange-600 py-16'>
-                <div className='w-10/12 mx-auto grid grid-cols-4'>
+                <div className='w-10/12 mx-auto grid md:grid-cols-4 md:gap-0 gap-8'>
                     <div>
                         <h1 className='text-white font-semibold text-2xl'>Website Link</h1>
                         <ul className='space-y-2 text-slate-50'>

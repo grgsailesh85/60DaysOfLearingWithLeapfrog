@@ -5,7 +5,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { useState } from "react";
-const Home = () =>{
+const Product = () =>{
     const [products, setProducts] = useState([
         {
             title:'New Blue Shirts mens',
@@ -83,36 +83,8 @@ const Home = () =>{
     return(
         <Layout>
             <div>
-                <header>
-                    <Swiper 
-                        pagination={true}
-                        navigation={true} 
-                        modules={[Navigation, Pagination]} 
-                        className="mySwiper"
-                    >
-                        <SwiperSlide>
-                            <img src="/images/p1.png" alt="" />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img src="/images/c1.jpg" alt="" />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img src="/images/p2.jpg" alt="" />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img src="/images/p3.jpg" alt="" />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img src="/images/p4.jpg" alt="" />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img src="/images/p5.jpg" alt="" />
-                        </SwiperSlide>
-                    </Swiper>
-                </header>
-
                 <div className="md:p-16 p-8">
-                    <h1 className="text-3xl font-bold text-center">Latest Products</h1>
+                    <h1 className="text-3xl font-bold text-center">All Products</h1>
                     <p className="text-center text-gray-600 md:w-7/12 mx-auto mt-2 mb-16">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi vel iste minus veritatis assumenda sit.</p>
                     <div className="md:w-10/12 mx-auto grid md:grid-cols-4 gap-2">
                         {
@@ -137,5 +109,5 @@ const Home = () =>{
         </Layout>
     )
 }
-export default Home
+export default Product
 

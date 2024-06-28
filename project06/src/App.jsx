@@ -12,12 +12,16 @@ import Customers from './components/Admin/Customers'
 import Payments from './components/Admin/Payments'
 import Settings from './components/Admin/Settings'
 import Home from './components/Home'
+import Product from './components/Product'
+import Category from './components/Category'
 
 const App = () =>{
   return(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}/>
+        <Route path="/products" element={<Product/>}/>
+        <Route path="/category" element={<Category/>}/>
         <Route path="/admin">
           <Route path="products" element={<Products/>}/>
           <Route path="orders" element={<Orders/>}/>
