@@ -11,7 +11,7 @@ const Category = () =>{
             title: 'Fashion'
         },
         {
-            title: 'Smart Phones'
+            title: 'Mobile`s'
         },
         {
             title: 'Furniture'
@@ -33,7 +33,7 @@ const Category = () =>{
     ])
     return(
         <Layout>
-            <div className="md:p-16 p-8">
+            <div className="md:p-20 p-8">
                 <div className="md:w-10/12 mx-auto grid md:grid-cols-4 md:gap-10 gap-8">
                     {
                         category.map((item,index)=>(

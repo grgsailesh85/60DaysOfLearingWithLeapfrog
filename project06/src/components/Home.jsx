@@ -83,7 +83,7 @@ const Home = () =>{
     return(
         <Layout>
             <div>
-                <header>
+                <header className="mt-8 shadow-2xl">
                     <Swiper 
                         pagination={true}
                         navigation={true} 
