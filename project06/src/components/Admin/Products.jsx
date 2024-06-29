@@ -91,7 +91,7 @@ const Products =()=>{
         <Layout>
             <div>
                 <h1 className="text-xl font-semibold mb-4">Products</h1>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-4 gap-2">
                     {
                         products.map((item,index)=>(
                             <div key={index} className="bg-white shadow-lg rounded-md">

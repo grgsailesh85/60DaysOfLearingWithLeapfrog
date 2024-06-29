@@ -86,7 +86,7 @@ const Product = () =>{
                 <div className="md:p-16 p-8">
                     <h1 className="text-3xl font-bold text-center">All Products</h1>
                     <p className="text-center text-gray-600 md:w-7/12 mx-auto mt-2 mb-16">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi vel iste minus veritatis assumenda sit.</p>
-                    <div className="md:w-10/12 mx-auto grid md:grid-cols-4 gap-2">
+                    <div className="md:w-11/12 mx-auto grid md:grid-cols-4 gap-2">
                         {
                             products.map((item,index)=>(
                                 <div key={index} className="bg-white shadow-lg border">

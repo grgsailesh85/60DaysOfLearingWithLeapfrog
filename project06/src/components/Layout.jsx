@@ -6,25 +6,29 @@ const Layout = ({children}) =>{
     const menus = [
         {
             label: 'Home',
-            href:'/'
+            href:'/',
+            icon:<i className="ri-home-2-line mr-2"></i>
         },
         {
             label: 'Products',
-            href:'/products'
-        },
+            href:'/products',
+            icon:<i className="ri-product-hunt-line mr-2"></i>
+        }, 
         {
             label: 'Category',
-            href:'/category'
+            href:'/category',
+            icon:<i className="ri-menu-search-line mr-2"></i>
         },
         {
             label: 'Contact Us',
-            href:'/contact-us'
+            href:'/contact-us',
+            icon:<i className="ri-contacts-line mr-2"></i>
         }
     ]
     return(
         <div>
             <nav className="sticky top-0 left-0 shadow-lg bg-slate-100">
-                <div className="w-10/12 mx-auto flex items-center justify-between">
+                <div className="w-11/12 mx-auto flex items-center justify-between">
                     <img 
                         src="/images/logo.png" 
                         alt="" 
@@ -76,23 +80,47 @@ const Layout = ({children}) =>{
                             {
                                 menus.map((item, index)=>(
                                     <li key={index}>
+                                        {item.icon}
                                         <Link to={item.href}>{item.label}</Link>
                                     </li>
                                 ))
                             }
-                            <li><Link to="/login">Log In</Link></li>
-                            <li><Link to="/signup">Sign Up</Link></li>
+                            <li>
+                                <Link to="/login">
+                                    <i className="ri-login-box-line mr-2"></i>
+                                    Log In
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="/signup">
+                                    <i className="ri-pencil-ruler-2-fill mr-2"></i>
+                                    Sign Up
+                                </Link>
+                            </li>
+
                         </ul>
                     </div>
 
                     <div>
                         <h1 className='text-white font-semibold text-2xl'>Follow Us</h1>
                         <ul className='space-y-2 text-slate-50'>
-                            <li><Link to="/">Facebook</Link></li>
-                            <li><Link to="/">Youtube</Link></li>
-                            <li><Link to="/">Twitter</Link></li>
-                            <li><Link to="/">Linked In</Link></li>
-                            <li><Link to="/">Instagram</Link></li>
+                            <li><Link to="/">
+                                    <i className="ri-facebook-box-line mr-2"></i>
+                                    Facebook
+                                </Link></li>
+                            <li><Link to="/">
+                                    <i className="ri-youtube-line mr-2"></i>
+                                    Youtube</Link></li>
+                            <li><Link to="/">
+                                    <i className="ri-twitter-x-line mr-2"></i>
+                                    Twitter</Link></li>
+                            <li><Link to="/">
+                                    <i className="ri-linkedin-box-fill mr-2"></i>
+                                    Linked In</Link></li>
+                            <li><Link to="/">
+                                    <i className="ri-instagram-line mr-2"></i>
+                                    Instagram</Link></li>
 
                         </ul>
                     </div>
