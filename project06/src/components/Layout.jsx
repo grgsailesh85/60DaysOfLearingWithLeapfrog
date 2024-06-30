@@ -85,7 +85,7 @@ const Layout = ({children}) =>{
             <footer className='bg-orange-600 py-16'>
                 <div className='w-10/12 mx-auto grid md:grid-cols-4 md:gap-0 gap-8'>
                     <div>
-                        <h1 className='text-teal-400 font-semibold text-2xl mb-4 '>Website Link</h1>
+                        <h1 className='text-teal-600 font-semibold text-2xl mb-4 '>Website Link</h1>
                         <ul className='space-y-2 text-slate-50'>
                             {
                                 menus.map((item, index)=>(
@@ -113,7 +113,7 @@ const Layout = ({children}) =>{
                     </div>
 
                     <div>
-                        <h1 className='text-teal-400 font-semibold text-2xl mb-4'>Follow Us</h1>
+                        <h1 className='text-teal-600 font-semibold text-2xl mb-4'>Follow Us</h1>
                         <ul className='space-y-2 text-slate-50'>
                             <li><Link to="/">
                                     <i className="ri-facebook-box-line mr-2"></i>
@@ -136,7 +136,7 @@ const Layout = ({children}) =>{
                     </div>
 
                     <div className='pr-8'>
-                        <h1 className='text-teal-400 font-semibold text-2xl mb-3'>Brand Details</h1>
+                        <h1 className='text-teal-600 font-semibold text-2xl mb-3'>Brand Details</h1>
                         <p className='text-slate-50 mb-6'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet. Tenetur !</p>
                         <img 
                             src="/images/logo.png" 
@@ -146,7 +146,7 @@ const Layout = ({children}) =>{
                     </div>
 
                     <div>
-                        <h1 className='text-teal-400 font-semibold text-2xl mb-4'>Contact Us</h1>
+                        <h1 className='text-teal-600 font-semibold text-2xl mb-4'>Contact Us</h1>
                         <form action="" className='space-y-4'>
                             <input
                                 required 
