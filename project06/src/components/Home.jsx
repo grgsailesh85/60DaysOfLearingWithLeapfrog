@@ -118,7 +118,7 @@ const Home = () =>{
                         {
                             products.map((item,index)=>(
                                 <div key={index} className="bg-white shadow-lg border">
-                                    <img src={item.thumbnail} alt="" />
+                                    <img src={item.thumbnail} alt=""/>
                                     <div className="p-2">
                                         <h1 className="text-lg text-semibold">{item.title}</h1>
                                         <div className="space-x-2">
@@ -127,6 +127,10 @@ const Home = () =>{
                                             <label htmlFor=""> ({item.discount})% </label>
                                         </div>
                                         <button className="bg-green-500 py-2 w-full rounded text-white font-semibold mt-4">Buy Now</button>
+                                        <button className="bg-rose-500 py-2 w-full rounded text-white font-semibold mt-2">
+                                            <i className="ri-shopping-cart-line mr-2"></i>
+                                            Add to Cart
+                                        </button>
                                     </div>
                                 </div>
                             ))
