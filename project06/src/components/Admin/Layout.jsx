@@ -141,7 +141,7 @@ const Layout = ({children}) =>{
                         </button>
                         {
                             menus.map((item, index)=>(
-                                <Link                                         key={index} 
+                                <Link key={index} 
                                     to={item.link} 
                                     className='px-4 py-3 text-gray-50 text-[17.5px] hover:bg-rose-600 hover:text-white'
                                     // If the current path matches the item's link, the background color is set to #E11D48. Otherwise, it remains transparent.
