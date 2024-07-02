@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 const Signup = () =>{
     const [passwordType, setPasswordType] = useState("password")
     return(
@@ -54,10 +55,13 @@ const Signup = () =>{
                     </div>
                     
                     <button 
-                        className="py-3 px-8 rounded bg-blue-600 text-white font-semibold hover:bg-rose-500">
+                        className="py-3 px-8 rounded bg-blue-600 text-white font-semibold hover:bg-rose-500 ">
                             Sign Up
                         </button>
                 </form>
+                <div>
+                    Already have an account ? <Link to="/login" className="text-blue-600 font-semibold hover:underline"> Sign In</Link>
+                </div>
             </div>
         </div>
     )
