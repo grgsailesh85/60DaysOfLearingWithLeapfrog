@@ -1,13 +1,25 @@
-import { useState } from 'react'
+import { useState , useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import 'remixicon/fonts/remixicon.css'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import firebaseAppConfig from '../util/firebase-config'
 
+const auth = getAuth(firebaseAppConfig)
 
 const Layout = ({children}) =>{
     const [open, setOpen] = useState(false)
+    const [session, setSession] = useState(null)
     const navigate = useNavigate()
 
-
+    useEffect(()=>{
+        onAuthStateChanged(auth, (user)=>{
+            if(user){
+                setSession(user)
+            } else {
+                setSession(null)
+            }
+        })
+    },[])
 
     const menus = [
         {
@@ -62,18 +74,33 @@ const Layout = ({children}) =>{
                                 </li>
                             ))
                         }
-                        <Link 
-                            className='block py-6 text-center hover:bg-blue-600 w-[100px] hover:text-white'
-                            to="/login"
-                        >
-                            Log In
-                        </Link>
-                        <Link 
-                            className='bg-blue-600 py-3 px-8 text-md font-semibold text-white block text-center hover:bg-rose-600 hover:text-white'
-                            to="/signup"
-                        >
-                            Sign Up
-                        </Link>
+
+                        {
+                            !session &&
+                            <>
+                                <Link 
+                                    className='block py-6 text-center hover:bg-blue-600 w-[100px] hover:text-white'
+                                    to="/login"
+                                >
+                                    Log In
+                                </Link>
+                                <Link 
+                                    className='bg-blue-600 py-3 px-8 text-md font-semibold text-white block text-center hover:bg-rose-600 hover:text-white'
+                                    to="/signup"
+                                >
+                                    Sign Up
+                                </Link>
+                            </>
+                        }
+
+                        {
+                            session &&
+                            <h1>Hi User</h1>
+                        }
+
+
+                        
+                        
                     </ul>
                 </div>
             </nav>

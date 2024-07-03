@@ -1,14 +1,17 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import firebaseAppConfig from "../util/firebase-config"
 import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth'
 
 const auth = getAuth(firebaseAppConfig)
 
 const Signup = () =>{
+    const navigate = useNavigate()
     const [passwordType, setPasswordType] = useState("password")
 
     const [error, setError] = useState(null)
+
+    const [loader, setLoader] =useState(false)
 
     const [formValue, setFormValue] = useState({
         fullname:'',
@@ -20,11 +23,15 @@ const Signup = () =>{
     const signup = async (e) =>{
         try{
             e.preventDefault()
-            const user = await createUserWithEmailAndPassword(auth, formValue.email, formValue.password)
-            console.log(user)
+            setLoader(true)
+            await createUserWithEmailAndPassword(auth, formValue.email, formValue.password)
+            navigate('/')
         }
         catch(err){
             setError(err.message)
+        }
+        finally{
+            setLoader(false)
         }
         
     }
@@ -95,11 +102,19 @@ const Signup = () =>{
                             }
                         </button>
                     </div>
-                    
-                    <button 
-                        className="py-3 px-8 rounded bg-blue-600 text-white font-semibold hover:bg-rose-500 ">
+
+                    {
+                        loader ? 
+                        <h1 className="text-lg font-semibold text-gray-600">Loading......</h1>
+                        :
+                        <button 
+                            className="py-3 px-8 rounded bg-blue-600 text-white font-semibold hover:bg-rose-500 "
+                        >
                             Sign Up
                         </button>
+                    }
+
+                   
                 </form>
                 <div>
                     Already have an account ? <Link to="/login" className="text-blue-600 font-semibold hover:underline"> Sign In</Link>
