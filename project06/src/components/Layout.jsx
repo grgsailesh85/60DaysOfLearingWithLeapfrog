@@ -1,13 +1,14 @@
 import { useState , useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import 'remixicon/fonts/remixicon.css'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
 import firebaseAppConfig from '../util/firebase-config'
 
 const auth = getAuth(firebaseAppConfig)
 
 const Layout = ({children}) =>{
     const [open, setOpen] = useState(false)
+    const [accountMenu, setAccountMenu] = useState(false)
     const [session, setSession] = useState(null)
     const navigate = useNavigate()
 
@@ -16,9 +17,9 @@ const Layout = ({children}) =>{
             if(user){
                 setSession(user)
             } else {
-                setSession(null)
+                setSession(false)
             }
-        })
+        }) 
     },[])
 
     const menus = [
@@ -47,6 +48,17 @@ const Layout = ({children}) =>{
         setOpen(false)
         navigate(href)
     }
+
+    if (session === null)
+    return(
+        <div className='bg-gray-100 h-full fixed top-0 left-0 w-full flex justify-center items-center'>
+            <span className="relative flex h-6 w-6">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-6 w-6 bg-sky-500"></span>    
+            </span>
+        </div>
+    )
+
     return(
         <div>
             <nav className="sticky top-0 left-0 shadow-lg bg-slate-100">
@@ -95,11 +107,31 @@ const Layout = ({children}) =>{
 
                         {
                             session &&
-                            <h1>Hi User</h1>
+                            <button className='relative' onClick={()=>setAccountMenu(!accountMenu)}>
+                                <img src="/images/avatar.jpg" alt="" className='w-10 h-10 rounded-full'/>
+                                {
+                                    accountMenu &&
+                                    <div className='flex flex-col items-start animate__animated animate__fadeIn w-[150px] py-3 bg-white absolute top-12 right-0 shadow-xl'>
+                                        <Link to="/profile" className='w-full text-left px-3 py-2 hover:bg-gray-100'>
+                                            <i className='ri-user-line mr-2'></i>
+                                            My Profile
+                                        </Link>
+                                        <Link to="/cart" className='w-full text-left px-3 py-2 hover:bg-gray-100'>
+                                            <i className='ri-shopping-cart-line mr-2'></i>
+                                            Cart
+                                        </Link>
+
+                                        <button className='w-full text-left px-3 py-2 hover:bg-gray-100' onClick={()=>signOut(auth)}>
+                                            <i className='ri-logout-circle-r-line mr-2'></i>
+                                            Logout
+                                        </button>
+                                       
+
+                                    </div>
+
+                                }
+                            </button>
                         }
-
-
-                        
                         
                     </ul>
                 </div>
