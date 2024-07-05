@@ -1,10 +1,47 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
-const Login = () =>{
-    const [passwordType, setPasswordType] = useState("password")
+import firebaseAppConfig from "../util/firebase-config"
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth"
+import { Link, useNavigate } from "react-router-dom"
 
-    const login = (e) =>{
-        e.preventDefault()
+const auth = getAuth(firebaseAppConfig)
+
+const Login = () =>{
+    const navigate = useNavigate()
+    const [passwordType, setPasswordType] = useState("password")
+    const [error, setError] = useState(null)
+    const [loader, setLoader] = useState(false)
+
+    const[formValue, setFormValue] = useState({
+        email:'',
+        password:''
+    })
+
+    const login = async (e) =>{
+        try{
+            e.preventDefault()
+            setLoader(true)
+            await signInWithEmailAndPassword(auth, formValue.email, formValue.password)
+            navigate("/")
+        }
+        catch(err){
+            setError("Invalid credentials provided")
+        }
+        finally{
+            setLoader(false)
+        }
+        
+    }
+
+
+    const handleChange = (e)=>{
+        const input = e.target 
+        const name = input.name 
+        const value = input.value 
+        setFormValue({
+            ...formValue,
+            [name] : value
+        })
+        setError(null)
     }
 
 
@@ -16,10 +53,10 @@ const Login = () =>{
                 <h1 className="text-4xl font-bold">Sign In</h1>
                 <p className="text-lg text-gray-600">Enter profile details to login</p>
                 <form action="" className="md:mt-8 space-y-6" onSubmit={login}>
-
                     <div className="flex flex-col">
                         <label htmlFor="" className="font-semibold text-lg mb-1">Email</label>
                         <input 
+                            onChange={handleChange}
                             required
                             type="email" 
                             name = "email"
@@ -31,6 +68,7 @@ const Login = () =>{
                     <div className="flex flex-col relative">
                         <label htmlFor="" className="font-semibold text-lg mb-1">Password</label>
                         <input 
+                            onChange={handleChange}
                             required
                             type={passwordType} 
                             name = "password"
@@ -50,15 +88,34 @@ const Login = () =>{
                             }
                         </button>
                     </div>
+
+                    {
+                        loader ?
+                        <h1 className="text-lg font-bold text-gray-600">Loading..</h1>
+                        :
+                        <button 
+                            className="py-3 px-8 rounded bg-blue-600 text-white font-semibold hover:bg-rose-500"
+                        >
+                                Login
+                    </button>
+                    }
                     
-                    <button 
-                        className="py-3 px-8 rounded bg-blue-600 text-white font-semibold hover:bg-rose-500">
-                            Login
-                        </button>
+                    
                 </form>
                 <div>
                     Dont't have an account ? <Link to="/signup" className="text-blue-600 font-semibold hover:underline"> Register Now </Link>
                 </div>
+
+                {
+                    error &&
+                    <div className="flex justify-between items-center  mt-2 bg-rose-600 p-3 rounded shadow text-white font-semibold animate__animated animate__pulse">
+                        <p>{error}</p>
+                        <button onClick={()=>setError(null)}>
+                            <i className="ri-close-line"></i> 
+                        </button>
+                    </div>
+                }
+
             </div>
         </div>
     )
