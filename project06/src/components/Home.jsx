@@ -89,9 +89,6 @@ const Home = () =>{
                         navigation={true} 
                         modules={[Navigation, Pagination]} 
                         className="mySwiper"
-                        style={{
-                            zIndex:-1
-                        }}
                     >
                         <SwiperSlide>
                             <img src="/images/p1.png" alt="" />

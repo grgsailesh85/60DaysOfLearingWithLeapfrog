@@ -2,13 +2,20 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 const Login = () =>{
     const [passwordType, setPasswordType] = useState("password")
+
+    const login = (e) =>{
+        e.preventDefault()
+    }
+
+
+
     return(
         <div className="grid md:grid-cols-2 md:min-h-screen md:overflow-hidden animate__animated animate__fadeIn">
             <img src="/images/login.png" alt="" className="w-full md:h-full h-24 object-cover" />
             <div className="flex flex-col md:p-16 p-8">
                 <h1 className="text-4xl font-bold">Sign In</h1>
                 <p className="text-lg text-gray-600">Enter profile details to login</p>
-                <form action="" className="md:mt-8 space-y-6">
+                <form action="" className="md:mt-8 space-y-6" onSubmit={login}>
 
                     <div className="flex flex-col">
                         <label htmlFor="" className="font-semibold text-lg mb-1">Email</label>
