@@ -18,6 +18,7 @@ import Category from './components/Category'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import Contact from './components/Contact';
+import PreGuard from './components/Guard/PreGuard';
 
 
 const App = () =>{
@@ -27,8 +28,12 @@ const App = () =>{
         <Route path="/" element={<Home/>}/>
         <Route path="/products" element={<Product/>}/>
         <Route path="/category" element={<Category/>}/>
-        <Route path ="/login" element={<Login/>}/>
-        <Route path ="/signup" element={<Signup/>}/>
+
+        <Route element={<PreGuard/>}>
+          <Route path ="/login" element={<Login/>}/>
+          <Route path ="/signup" element={<Signup/>}/>
+        </Route>
+        
         <Route path ="/contact-us" element={<Contact/>}/>
         <Route path="/admin">
           <Route path="products" element={<Products/>}/>
