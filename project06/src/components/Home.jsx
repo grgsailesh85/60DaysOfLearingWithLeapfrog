@@ -94,7 +94,7 @@ const Home = () =>{
                         }}
                     >
                         <SwiperSlide>
-                            <img src="/images/p1.png" alt="" />
+                            <img src="/images/a.png" alt="" />
                         </SwiperSlide>
                         <SwiperSlide>
                             <img src="/images/c1.jpg" alt="" />
