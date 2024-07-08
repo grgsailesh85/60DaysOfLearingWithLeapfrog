@@ -20,6 +20,7 @@ import Signup from './components/Signup'
 import Contact from './components/Contact';
 import PreGuard from './components/Guard/PreGuard';
 import Cart from './components/Cart';
+import Profile from './components/Profile';
 
 const App = () =>{
   return(
@@ -29,6 +30,7 @@ const App = () =>{
         <Route path="/products" element={<Product/>}/>
         <Route path="/category" element={<Category/>}/>
         <Route path="/cart" element={<Cart/>}/>
+        <Route path="/profile" element={<Profile/>}/>
 
         <Route element={<PreGuard/>}>
           <Route path ="/login" element={<Login/>}/>
