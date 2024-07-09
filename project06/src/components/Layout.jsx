@@ -16,6 +16,8 @@ const Layout = ({children}) =>{
         onAuthStateChanged(auth, (user)=>{
             if(user){
                 setSession(user)
+                console.log(user)
+
             } else {
                 setSession(false)
             }
