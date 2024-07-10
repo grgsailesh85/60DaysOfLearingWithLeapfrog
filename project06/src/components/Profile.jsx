@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react"
 import firebaseAppConfig from "../util/firebase-config"
-import { onAuthStateChanged, getAuth } from "firebase/auth"
+import { onAuthStateChanged, getAuth} from "firebase/auth"
+import { getStorage, ref, uploadBytes} from "firebase/storage"
 import { useNavigate } from "react-router-dom"
 import Layout from "./Layout"
 
 const auth = getAuth(firebaseAppConfig)
+
+const storage = getStorage()
+const bucket = ref(storage, 'picture')
+
 
 const Profile = () =>{
 
@@ -31,6 +36,18 @@ const Profile = () =>{
             }
         })
     }, [])
+
+    const setProfilePicture = async (e) =>{
+        const input = e.target
+        const file = input.files[0]
+        const filenameArray = file.name.split('.')
+        const ext = filenameArray[filenameArray.length-1]
+        const filename =Date.now() + '.' + ext
+        const path = `pictures/${filename}`
+        const bucket = ref(storage, path)
+        const snapshot = await uploadBytes(bucket,  file)
+        const imageUrl = `https://firebasestorage.googleapis.com/v0/b/shopcode-e2536.appspot.com/o/${path}`
+    }
 
     const handleFormValue = (e) =>{
         const input = e.target   
@@ -64,7 +81,7 @@ const Profile = () =>{
 
                 <div className="w-24 h-24 mx-auto relative mb-6">
                     <img src="/images/avatar.jpg" alt="" className="rounded-full w-24 h-24"/>
-                    <input type="file" accept="image/*" className="opacity-0 absolute top-0 left-0 w-full h-full"/>
+                    <input type="file" accept="image/*" className="opacity-0 absolute top-0 left-0 w-full h-full" onChange={setProfilePicture}/>
                 </div>
 
 
