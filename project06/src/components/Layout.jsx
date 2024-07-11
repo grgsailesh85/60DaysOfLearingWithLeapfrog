@@ -63,7 +63,7 @@ const Layout = ({children}) =>{
 
     return(
         <div>
-            <nav className="sticky top-0 left-0 shadow-lg bg-slate-100">
+            <nav className="sticky top-0 left-0 shadow-lg bg-slate-100 z-50">
                 <div className="w-11/12 mx-auto flex items-center justify-between">
                     <img 
                         src="/images/logo.png" 
