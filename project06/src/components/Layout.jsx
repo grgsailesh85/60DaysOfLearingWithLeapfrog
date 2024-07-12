@@ -110,7 +110,7 @@ const Layout = ({children}) =>{
                         {
                             session &&
                             <button className='relative' onClick={()=>setAccountMenu(!accountMenu)}>
-                                <img src="/images/avatar.jpg" alt="" className='w-10 h-10 rounded-full'/>
+                                <img src={ session.photoURL ? session.photoURL : "/images/avatar.jpg" } alt="" className='w-10 h-10 rounded-full'/>
                                 {
                                     accountMenu &&
                                     <div className='flex flex-col items-start animate__animated animate__fadeIn w-[150px] py-3 bg-white absolute top-12 right-0 shadow-xl'>
@@ -250,6 +250,39 @@ const Layout = ({children}) =>{
                 }}
             > 
                 <div className='flex flex-col p-8 gap-6'>
+                    {
+                        session &&
+                        <button className='relative' onClick={()=>setAccountMenu(!accountMenu)}>
+                            <div className='flex items-center gap-3'>
+                                <img src={ session.photoURL ? session.photoURL : "/images/avatar.jpg" } alt="" className='w-10 h-10 rounded-full'/>
+                                <div>
+                                    <p className='text-white capitalize text-left'>{session.displayName}</p>
+                                    <p className='text-white'>{session.email}</p>
+                                </div>
+                            </div>
+                            {
+                                accountMenu &&
+                                <div className='flex flex-col items-start animate__animated animate__fadeIn w-[150px] py-3 bg-white absolute top-12 right-0 shadow-xl'>
+                                        <Link to="/profile" className='w-full text-left px-3 py-2 hover:bg-gray-100'>
+                                            <i className='ri-user-line mr-2'></i>
+                                            My Profile
+                                        </Link>
+                                        <Link to="/cart" className='w-full text-left px-3 py-2 hover:bg-gray-100'>
+                                            <i className='ri-shopping-cart-line mr-2'></i>
+                                            Cart
+                                        </Link>
+
+                                        <button className='w-full text-left px-3 py-2 hover:bg-gray-100' onClick={()=>signOut(auth)}>
+                                            <i className='ri-logout-circle-r-line mr-2'></i>
+                                            Logout
+                                        </button>
+                                       
+
+                                </div>
+                            }
+                        </button>
+                    }
+                        
                     {
                         menus.map((item,index)=>(
                             <button onClick={()=>mobileLink(item.href)}key={index} className='text-left text-white pl-[4px]'>
