@@ -93,6 +93,10 @@ const Profile = () =>{
         })
     }
 
+    const setAddress = (e) =>{
+        e.preventDefault()
+    }
+
     if (session === null)
         return(
             <div className='bg-gray-100 h-full fixed top-0 left-0 w-full flex justify-center items-center'>
@@ -172,6 +176,82 @@ const Profile = () =>{
 
 
 
+                </form>
+            </div>
+
+            <div className="mx-auto md:my-16 shadow-lg rounded-md p-8 md:w-7/12 border">
+                <div className="flex gap-3">
+                    <i className="ri-link-unlink-m text-4xl"></i>
+                    <h1 className="text-3xl font-semibold">Delivery Address</h1>
+                </div>
+
+                <hr className="my-6"/>
+
+                <form action="" className="grid grid-cols-2" onSubmit={setAddress}>
+                    <div className="flex flex-col gap-2 col-span-2">
+                        <label htmlFor="" className="text-lg font-semibold">Area/Street/Villa</label>
+                        <input 
+                            onChange={handleFormValue}
+                            required
+                            type="text"
+                            name="address"
+                            className="p-2 rounded border border-gray-300" 
+                            value={formValue.address}
+                        />    
+                    </div> 
+
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="" className="text-lg font-semibold">City</label>
+                        <input 
+                            onChange={handleFormValue}
+                            required
+                            type="text"
+                            name="city"
+                            className="p-2 rounded border border-gray-300" 
+                            value={formValue.city}
+                        />    
+                    </div> 
+
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="" className="text-lg font-semibold">State</label>
+                        <input 
+                            onChange={handleFormValue}
+                            required
+                            type="text"
+                            name="state"
+                            className="p-2 rounded border border-gray-300" 
+                            value={formValue.state}
+                        />    
+                    </div> 
+
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="" className="text-lg font-semibold">Country</label>
+                        <input 
+                            onChange={handleFormValue}
+                            required
+                            type="text"
+                            name="country"
+                            className="p-2 rounded border border-gray-300" 
+                            value={formValue.country}
+                        />    
+                    </div> 
+
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="" className="text-lg font-semibold">PinCode</label>
+                        <input 
+                            onChange={handleFormValue}
+                            required
+                            type="number"
+                            name="pincode"
+                            className="p-2 rounded border border-gray-300" 
+                            value={formValue.pincode}
+                        />    
+                    </div> 
+
+                    <button className="px-8 py-2 bg-rose-600 text-white rounded w-fit hover:bg-green-600 mt-6">
+                        <i className="ri-save-line mr-2"></i>
+                        Save
+                    </button>
                 </form>
             </div>
 
