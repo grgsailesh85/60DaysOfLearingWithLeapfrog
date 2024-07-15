@@ -245,7 +245,7 @@ const Layout = ({children}) =>{
             <aside 
                 className='overflow-hidden md:hidden bg-slate-700 shadow fixed top-0 left-0 h-full z-50'
                 style={{
-                    width:(open ? 250 : 0),
+                    width:(open ? 300 : 0),
                     transition: '0.3s'
                 }}
             > 
