@@ -5,11 +5,12 @@ import { getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage"
 import { useNavigate } from "react-router-dom"
 import Layout from "./Layout"
 import Swal from 'sweetalert2'
+import { getFirestore, collection, addDoc, getDocs, query , where, updateDoc } from 'firebase/firestore'
 
 const auth = getAuth(firebaseAppConfig)
-
+const db = getFirestore(firebaseAppConfig)
 const storage = getStorage()
-const bucket = ref(storage, 'picture')
+// const bucket = ref(storage, 'picture')
 
 
 const Profile = () =>{
@@ -27,6 +28,15 @@ const Profile = () =>{
         // country:'',
         // pincode:''
     })
+    const [isAddress, setIsaddress] = useState(null)
+    const [addressForm, setAddressForm] = useState({
+        address:'',
+        city:'',
+        state:'',
+        country:'',
+        pincode:'',
+        userId: ''
+    })
 
     useEffect(()=>{
         onAuthStateChanged(auth, (user)=>{
@@ -40,14 +50,43 @@ const Profile = () =>{
     }, [])
 
     useEffect(()=>{
-        if(session) {
-            setFormValue({
-                ...formValue,
-                fullname : session.displayName,
-                mobile : (session.phoneNumber ? session.phoneNumber : '')
-            })
+        const req = async () =>{
+            if(session) {
+                setFormValue({
+                    ...formValue,
+                    fullname : session.displayName,
+                    mobile : (session.phoneNumber ? session.phoneNumber : '')
+                })
+    
+                setAddressForm({
+                    ...addressForm,
+                    userId: session.uid 
+                })
+    
+                //fetch address
+                const col = collection(db, "addresses")
+                const q = query(col, where("userId", "==", session.uid))
+                const snapshot = await getDocs(q)
+
+                setIsaddress(!snapshot.empty)
+                
+                snapshot.forEach((doc)=>{
+                    const address = doc.data()
+                    if(address){
+                        console.log("yes")
+                    } else {
+                        console.log("no")
+                    }
+                    setAddressForm({
+                        ...addressForm,
+                        ...address
+                    })
+                })
+            }
         }
+        req()
     },[session])
+    
 
     const setProfilePicture = async (e) =>{
         const input = e.target
@@ -93,8 +132,49 @@ const Profile = () =>{
         })
     }
 
-    const setAddress = (e) =>{
-        e.preventDefault()
+    const handleAddressForm = (e) =>{
+        const input = e.target
+        const name = input.name
+        const value = input.value
+        setAddressForm({
+            ...addressForm,
+            [name] : value
+        })
+
+    }
+
+    const setAddress = async (e) =>{
+        try{
+            e.preventDefault()
+            await addDoc(collection(db, "addresses"), addressForm)
+            new Swal ({
+                icon : 'success',
+                title: 'Address Saved !'
+            })
+        }
+        catch(err){
+            console.log(err)
+            new Swal ({
+                icon: 'error',
+                title : 'Failed !',
+                text: err.message
+            })
+        }
+    }
+
+    const updateAddress = async (e) =>{
+        try{
+            e.preventDefault()
+            alert()
+        }
+        catch(err){
+            new Swal ({
+                icon: 'error',
+                title : 'Failed !',
+                text: err.message
+            })
+        }
+
     }
 
     if (session === null)
@@ -128,7 +208,7 @@ const Profile = () =>{
                 </div>
 
 
-                <form action="" className="grid grid-cols-2" onSubmit={saveProfileInfo}>
+                <form action="" className="grid grid-cols-2 gap-6" onSubmit={saveProfileInfo}>
                     <div className="flex flex-col gap-2">
                         <label htmlFor="" className="text-lg font-semibold">Full Name</label>
                         <input 
@@ -187,64 +267,65 @@ const Profile = () =>{
 
                 <hr className="my-6"/>
 
-                <form action="" className="grid grid-cols-2" onSubmit={setAddress}>
+                <form action="" className="grid grid-cols-2 gap-6" onSubmit={isAddress ? updateAddress : setAddress}>
                     <div className="flex flex-col gap-2 col-span-2">
                         <label htmlFor="" className="text-lg font-semibold">Area/Street/Villa</label>
                         <input 
-                            onChange={handleFormValue}
+                            onChange={handleAddressForm}
                             required
                             type="text"
                             name="address"
                             className="p-2 rounded border border-gray-300" 
-                            value={formValue.address}
+                            value={addressForm.address}
                         />    
                     </div> 
 
                     <div className="flex flex-col gap-2">
                         <label htmlFor="" className="text-lg font-semibold">City</label>
                         <input 
-                            onChange={handleFormValue}
+                            onChange={handleAddressForm}
                             required
                             type="text"
                             name="city"
                             className="p-2 rounded border border-gray-300" 
-                            value={formValue.city}
+                            value={addressForm.city}
+
                         />    
                     </div> 
 
                     <div className="flex flex-col gap-2">
                         <label htmlFor="" className="text-lg font-semibold">State</label>
                         <input 
-                            onChange={handleFormValue}
+                            onChange={handleAddressForm}
                             required
                             type="text"
                             name="state"
                             className="p-2 rounded border border-gray-300" 
-                            value={formValue.state}
+                            value={addressForm.state}
                         />    
                     </div> 
 
                     <div className="flex flex-col gap-2">
                         <label htmlFor="" className="text-lg font-semibold">Country</label>
                         <input 
-                            onChange={handleFormValue}
+                            onChange={handleAddressForm}
                             required
                             type="text"
                             name="country"
                             className="p-2 rounded border border-gray-300" 
-                            value={formValue.country}
+                            value={addressForm.country}
                         />    
                     </div> 
 
                     <div className="flex flex-col gap-2">
                         <label htmlFor="" className="text-lg font-semibold">PinCode</label>
                         <input 
-                            onChange={handleFormValue}
+                            onChange={handleAddressForm} 
                             required
                             type="number"
                             name="pincode"
                             className="p-2 rounded border border-gray-300" 
-                            value={formValue.pincode}
+                            value={addressForm.pincode}
                         />    
                     </div> 
 
@@ -253,9 +334,9 @@ const Profile = () =>{
                         Save
                     </button>
                 </form>
-            </div>
-
-            
+                <div className=" ">
+                </div>
+            </div>   
         </Layout>
     )
 }
