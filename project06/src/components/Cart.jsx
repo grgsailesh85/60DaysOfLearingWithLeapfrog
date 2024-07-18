@@ -1,39 +1,46 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Layout from "./Layout"
+import firebaseAppConfig from "../util/firebase-config";
+import { onAuthStateChanged, getAuth, } from "firebase/auth";
+import { getFirestore, getDocs, collection, query, where } from "firebase/firestore";
+
+const auth = getAuth(firebaseAppConfig)
+const db = getFirestore(firebaseAppConfig)
+
 
 const Cart = () =>{
-    const [products, setProducts] = useState([
-        {
-            title:'light green shirt',
-            price:20000,
-            discount:15,
-            image: '/products/a.jpg'
-        },
-        {
-            title:'yellow color shirt',
-            price:20000,
-            discount:15,
-            image: '/products/b.jpg'
-        },
-        {
-            title:'navy blue shirt',
-            price:20000,
-            discount:15,
-            image: '/products/c.jpg'
-        },
-        {
-            title:'plan dark pink shirt ',
-            price:20000,
-            discount:15,
-            image: '/products/d.jpg'
-        },
-        {
-            title:'formal shirt ',
-            price:20000,
-            discount:15,
-            image: '/products/e.jpg'
+    const [products, setProducts] = useState([])
+
+    const [session, setSession] = useState(null)
+
+    useEffect(()=>{
+        onAuthStateChanged(auth,(user)=>{
+            if  (user){
+                setSession(user)
+            } else {
+                setSession(null)
+            }
+        })
+    },[])
+
+    useEffect(()=>{
+        const req = async() =>{
+            if(session){
+                const col = collection(db, "carts")
+                const q = query(col, where("userId", "==", session.uid))
+                const snapshot = await getDocs(q)
+                const tmp = []
+                snapshot.forEach((doc)=>{
+                    const document = doc.data()
+                    tmp.push(document)
+                })
+                setProducts(tmp)
+            }
         }
-    ])
+        req()
+    },[session])
+
+
     return (
         <Layout>
             <div className="md:my-16 mx-auto md:w-7/12 bg-white shadow-lg border rounded-md p-8">
@@ -58,7 +65,7 @@ const Cart = () =>{
                                         
                                         <button className="bg-rose-600 text-white px-4 py-2 rounded w-fit">
                                             <i className="ri-delete-bin-line mr-2"></i>
-                                            Remove
+                                              Remove
                                         </button>
                                     </div>
                                 </div>

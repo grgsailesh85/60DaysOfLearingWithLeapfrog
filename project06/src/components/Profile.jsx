@@ -5,7 +5,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage"
 import { useNavigate } from "react-router-dom"
 import Layout from "./Layout"
 import Swal from 'sweetalert2'
-import { getFirestore, collection, addDoc, getDocs, query , where, updateDoc } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, getDocs, query , where, updateDoc, doc } from 'firebase/firestore'
 
 const auth = getAuth(firebaseAppConfig)
 const db = getFirestore(firebaseAppConfig)
@@ -28,7 +28,12 @@ const Profile = () =>{
         // country:'',
         // pincode:''
     })
-    const [isAddress, setIsaddress] = useState(null)
+    const [isAddress, setIsaddress] = useState(false)
+
+    const [docId, setDocID] = useState(null)
+
+    const [isUpdated, setIsUpdated] = useState(false)
+
     const [addressForm, setAddressForm] = useState({
         address:'',
         city:'',
@@ -71,12 +76,8 @@ const Profile = () =>{
                 setIsaddress(!snapshot.empty)
                 
                 snapshot.forEach((doc)=>{
+                    setDocID(doc.id)
                     const address = doc.data()
-                    if(address){
-                        console.log("yes")
-                    } else {
-                        console.log("no")
-                    }
                     setAddressForm({
                         ...addressForm,
                         ...address
@@ -85,7 +86,7 @@ const Profile = () =>{
             }
         }
         req()
-    },[session])
+    },[session , isUpdated])
     
 
     const setProfilePicture = async (e) =>{
@@ -147,6 +148,8 @@ const Profile = () =>{
         try{
             e.preventDefault()
             await addDoc(collection(db, "addresses"), addressForm)
+            setIsaddress(true)
+            setIsUpdated(!isUpdated)
             new Swal ({
                 icon : 'success',
                 title: 'Address Saved !'
@@ -165,7 +168,13 @@ const Profile = () =>{
     const updateAddress = async (e) =>{
         try{
             e.preventDefault()
-            alert()
+            const ref = doc(db, "addresses",docId)
+            await updateDoc(ref, addressForm)
+            new Swal({
+                icon:'success',
+                title: 'Address Updated !' 
+
+            })
         }
         catch(err){
             new Swal ({
@@ -329,10 +338,19 @@ const Profile = () =>{
                         />    
                     </div> 
 
-                    <button className="px-8 py-2 bg-rose-600 text-white rounded w-fit hover:bg-green-600 mt-6">
-                        <i className="ri-save-line mr-2"></i>
-                        Save
-                    </button>
+                    {
+                        isAddress ? 
+                        <button className="px-8 py-2 bg-rose-600 text-white rounded w-fit hover:bg-green-600 mt-6">
+                            <i className="ri-save-line mr-2"></i>
+                            Save
+                        </button>
+                        :
+                        <button className="px-8 py-2 bg-green-500 text-white rounded w-fit hover:bg-green-600 mt-6">
+                            <i className="ri-save-line mr-2"></i>
+                            Submit
+                        </button>
+                    }
+
                 </form>
                 <div className=" ">
                 </div>

@@ -4,7 +4,15 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import firebaseAppConfig from "../util/firebase-config";
+import { getFirestore, addDoc, collection } from 'firebase/firestore'
+import { onAuthStateChanged, getAuth, } from "firebase/auth";
+import Swal from 'sweetalert2'
+
+const db = getFirestore(firebaseAppConfig)
+const auth = getAuth(firebaseAppConfig)
+
 const Home = () =>{
     const [products, setProducts] = useState([
         {
@@ -80,6 +88,42 @@ const Home = () =>{
             thumbnail:'/products/f.jpg'
         }
     ])
+
+    const [session, setSession] = useState(null)
+
+    useEffect(()=>{
+        onAuthStateChanged(auth,(user)=>{
+            if  (user){
+                setSession(user)
+            } else {
+                setSession(null)
+            }
+        })
+    },[])
+
+
+    const addToCart = async (item) =>{
+        try {
+            item.userId = session.uid
+            await addDoc(collection(db,"carts"), item)
+            new Swal ( {
+                icon : 'success', 
+                title : 'Product added !'
+            })
+        }
+        catch(err){
+            new Swal ({
+                icon : 'error',
+                title : 'Failed !',
+                text : err.message
+            })
+        }
+    }
+
+
+
+
+
     return(
         <Layout>
             <div>
@@ -130,7 +174,7 @@ const Home = () =>{
                                             <label htmlFor=""> ({item.discount})% </label>
                                         </div>
                                         <button className="bg-green-500 py-2 w-full rounded text-white font-semibold mt-4">Buy Now</button>
-                                        <button className="bg-rose-500 py-2 w-full rounded text-white font-semibold mt-2">
+                                        <button onClick={()=>addToCart(item)} className="bg-rose-500 py-2 w-full rounded text-white font-semibold mt-2" >
                                             <i className="ri-shopping-cart-line mr-2"></i>
                                             Add to Cart
                                         </button>
