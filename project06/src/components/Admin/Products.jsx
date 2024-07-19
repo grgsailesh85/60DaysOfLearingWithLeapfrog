@@ -1,96 +1,76 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import Layout from "./Layout"
+import firebaseAppConfig from "../../util/firebase-config"
+import { getFirestore, addDoc, collection } from "firebase/firestore"
+import Swal from "sweetalert2"
+
+const db = getFirestore() 
+
 const Products =()=>{
-    const [products , setProducts] = useState([
-        {
-            title:'mens shirt slim blue',
-            price: 4500,
-            discount:20,
-            description: 'this is the best shirt available in online market',
-            images:'/products/a.jpg'
-        },
-        {
-            title:'mens shirt slim blue',
-            price: 4500,
-            discount:20,
-            description: 'this is the best shirt available in online market',
-            images:'/products/b.jpg'
-        },
-        {
-            title:'mens shirt slim blue',
-            price: 4500,
-            discount:20,
-            description: 'this is the best shirt available in online market',
-            images:'/products/c.jpg'
-        },
-        {
-            title:'mens shirt slim blue',
-            price: 4500,
-            discount:20,
-            description: 'this is the best shirt available in online market',
-            images:'/products/d.jpg'
-        },
-        {
-            title:'mens shirt slim blue',
-            price: 4500,
-            discount:20,
-            description: 'this is the best shirt available in online market',
-            images:'/products/e.jpg'
-        },
-        {
-            title:'mens shirt slim blue',
-            price: 4500,
-            discount:20,
-            description: 'this is the best shirt available in online market',
-            images:'/products/f.jpg'
-        },
-        {
-            title:'mens shirt slim blue',
-            price: 4500,
-            discount:20,
-            description: 'this is the best shirt available in online market',
-            images:'/products/g.jpg'
-        },
-        {
-            title:'mens shirt slim blue',
-            price: 4500,
-            discount:20,
-            description: 'this is the best shirt available in online market',
-            images:'/products/g.jpg'
-        },
-        {
-            title:'mens shirt slim blue',
-            price: 4500,
-            discount:20,
-            description: 'this is the best shirt available in online market',
-            images:'/products/i.jpg'
-        },
-        {
-            title:'mens shirt slim blue',
-            price: 4500,
-            discount:20,
-            description: 'this is the best shirt available in online market',
-            images:'/products/j.jpg'
-        },
-        {
-            title:'mens shirt slim blue',
-            price: 4500,
-            discount:20,
-            description: 'this is the best shirt available in online market',
-            images:'/products/k.jpg'
-        },
-        {
-            title:'mens shirt slim blue',
-            price: 4500,
-            discount:20,
-            description: 'this is the best shirt available in online market',
-            images:'/products/l.jpg'
+    const modal = {
+        title : '',
+        description : '',
+        price : '',
+        discount : ''
+    }
+    const [products , setProducts] = useState([])
+    const [productForm, setProductForm] =  useState(modal)
+    const [productModel, setProductModel] = useState(false)
+    const [applyCloseAnimation, setApplyCloseAnimation] = useState(false)
+     
+    const handleModelClose = ()=>{
+        setApplyCloseAnimation(true)
+        setTimeout(()=>{
+            setProductModel(false)
+        }, 700)
+    }
+
+    const handleModelOpen = ()=>{
+        setApplyCloseAnimation(false)
+        setProductModel(true)
+    }
+
+    const handleProductForm = (e)=>{
+        const input = e.target
+        const name = input.name
+        const value = input.value
+        setProductForm({
+            ...productForm,
+            [name] : value
+        })
+    }
+
+    const createProduct = async (e)=>{
+        try{
+            e.preventDefault()
+            await addDoc(collection(db,"products"),productForm)
+            setProductForm(modal)
+            handleModelClose()
+            new Swal ({
+                icon : 'success',
+                title : 'Product Added'
+            })
         }
-    ])
+        catch(err){
+            new Swal({
+                icon : 'error',
+                title : 'Failed !',
+                text : err.message
+            })
+        }
+    }
+
     return(
         <Layout>
             <div>
-                <h1 className="text-xl font-semibold mb-4">Products</h1>
+                <div className="flex justify-between items-center">
+                    <h1 className="text-xl font-semibold mb-4">Products</h1>
+                    <button className="bg-indigo-600 text-white rounded py-2 px-4" onClick={handleModelOpen}>
+                        <i className="ri-sticky-note-add-line mr-2"></i>
+                        New Product
+                    </button>
+                </div>
+
                 <div className="grid grid-cols-4 gap-2">
                     {
                         products.map((item,index)=>(
@@ -114,6 +94,62 @@ const Products =()=>{
                         ))
                     }
                 </div>
+
+                {
+                    productModel &&
+                    <div className={`animate__animated ${applyCloseAnimation ? 'animate__fadeOut' : 'animate__fadeIn'} bg-black bg-opacity-80 absolute top-0 left-0 w-full h-full flex justify-center items-center`}>
+                        <div className={`animate__animated ${applyCloseAnimation ? 'animate__zoomOut' : 'animate__zoomIn'} animate__faster bg-white w-5/12 py-5 px-6 rounded-md border border-1 relative`}>
+                            <button className="absolute top-2 right-3" onClick={handleModelClose}>
+                                <i className="ri-close-line text-lg"></i>
+                            </button>
+                            <h1 className="text-lg font-semibold">Add a Product</h1>
+                            <form action="" className="grid grid-cols-2 mt-4 gap-6" onSubmit={createProduct}>
+                                <input 
+                                    type="text"
+                                    name="title"
+                                    placeholder="Enter product title here" 
+                                    className="p-2 border border-gray-300 rounded col-span-2"
+                                    onChange={handleProductForm}
+                                    value = {productForm.title}
+                                />
+                                <input 
+                                    type="number"
+                                    name="price"
+                                    placeholder="Price" 
+                                    className="p-2 border border-gray-300 rounded"
+                                    onChange={handleProductForm}
+                                    value = {productForm.price}
+                                />
+                                <input 
+                                    type="text"
+                                    name="discount"
+                                    placeholder="Discount" 
+                                    className="p-2 border border-gray-300 rounded"
+                                    onChange={handleProductForm}
+                                    value={productForm.discount}
+                                />
+                                <textarea
+                                    required
+                                    name="description"
+                                    placeholder="Description" 
+                                    className="p-2 border border-gray-300 rounded col-span-2"
+                                    rows={8}
+                                    onChange={handleProductForm}
+                                    value={productForm.description}
+                                />
+
+                                <div>
+                                    <button className="bg-indigo-600 text-white rounded px-4 py-2">
+                                        Submit
+                                    </button>
+                                </div>
+                            
+                            </form>
+                        </div>
+                    </div>
+                }
+
+                
             </div>
         </Layout>
     )

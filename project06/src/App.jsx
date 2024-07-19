@@ -1,4 +1,5 @@
 import 'remixicon/fonts/remixicon.css'
+import 'animate.css';
 import {
   BrowserRouter,
   Routes,
