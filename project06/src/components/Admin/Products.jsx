@@ -4,7 +4,7 @@ import firebaseAppConfig from "../../util/firebase-config"
 import { getFirestore, addDoc, collection } from "firebase/firestore"
 import Swal from "sweetalert2"
 
-const db = getFirestore() 
+const db = getFirestore(firebaseAppConfig) 
 
 const Products =()=>{
     const modal = {
