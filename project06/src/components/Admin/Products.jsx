@@ -1,12 +1,17 @@
-import { useState, useRef } from "react"
+import { useState, useEffect } from "react"
 import Layout from "./Layout"
 import firebaseAppConfig from "../../util/firebase-config"
-import { getFirestore, addDoc, collection } from "firebase/firestore"
+import { getFirestore, addDoc, collection, getDocs, updateDoc, doc } from "firebase/firestore"
 import Swal from "sweetalert2"
+import uploadFile from "../../util/storage"
+
+
+
 
 const db = getFirestore(firebaseAppConfig) 
 
 const Products =()=>{
+    const [updateUi , setUpdateUi] = useState(false)
     const modal = {
         title : '',
         description : '',
@@ -17,6 +22,22 @@ const Products =()=>{
     const [productForm, setProductForm] =  useState(modal)
     const [productModel, setProductModel] = useState(false)
     const [applyCloseAnimation, setApplyCloseAnimation] = useState(false)
+
+
+
+    useEffect(()=>{
+        const req = async () =>{
+            const snapshot = await getDocs(collection(db, "products"))
+            const tmp = []
+            snapshot.forEach((doc)=>{
+                const allProducts = doc.data()
+                allProducts.id = doc.id
+                tmp.push(allProducts)
+            })
+            setProducts(tmp)
+        }
+        req()
+    },[updateUi])
      
     const handleModelClose = ()=>{
         setApplyCloseAnimation(true)
@@ -46,6 +67,7 @@ const Products =()=>{
             await addDoc(collection(db,"products"),productForm)
             setProductForm(modal)
             handleModelClose()
+            setUpdateUi(!updateUi)
             new Swal ({
                 icon : 'success',
                 title : 'Product Added'
@@ -60,6 +82,17 @@ const Products =()=>{
         }
     }
 
+    const uploadProductImage = async (e, id) =>{
+        const input = e.target
+        const file = input.files[0]
+        const path = `products/${Date.now()}.png`
+        const url = await uploadFile(file, path)
+        console.log(url)
+        const ref = doc(db, "products", id)
+        await updateDoc(ref, {image : url})
+        setUpdateUi(!updateUi)
+    }
+
     return(
         <Layout>
             <div>
@@ -71,19 +104,25 @@ const Products =()=>{
                     </button>
                 </div>
 
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid md:grid-cols-4 gap-2 mt-8">
                     {
                         products.map((item,index)=>(
                             <div key={index} className="bg-white shadow-lg rounded-md">
-                                <img 
-                                    src={item.images} 
-                                    alt=""
-                                    className="rounded-t-md h-[270px] w-full object-cover"
-
-                                />
+                                <div className="relative">
+                                    <img 
+                                        src={ item.image ? item.image : "/images/pt.jpg" }
+                                    
+                                        className="rounded-t-md h-[270px] w-full object-cover"
+                                    />
+                                    <input 
+                                        onChange={(e)=>uploadProductImage(e, item.id)}
+                                        type="file"
+                                        className="opacity-0 w-full h-full absolute top-0 left-0" 
+                                    />
+                                </div>
                                 <div className="p-4">
                                     <h1 className="text-lg capitalize font-semibold">{item.title}</h1>
-                                    <p className="text-gray-600">{item.description.slice(0,50)}</p>
+                                    {/* <p className="text-gray-600">{item.description.slice(0,50)}</p> */}
                                     <div className="flex gap-1 mt-1">
                                         <p>Rs{item.price-(item.price*item.discount)/100}</p>
                                         <del>Rs{item.price}</del>

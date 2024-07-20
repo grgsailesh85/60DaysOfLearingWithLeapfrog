@@ -6,7 +6,7 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { useState, useEffect } from "react";
 import firebaseAppConfig from "../util/firebase-config";
-import { getFirestore, addDoc, collection } from 'firebase/firestore'
+import { getFirestore, addDoc, collection, getDocs } from 'firebase/firestore'
 import { onAuthStateChanged, getAuth, } from "firebase/auth";
 import Swal from 'sweetalert2'
 
@@ -14,80 +14,7 @@ const db = getFirestore(firebaseAppConfig)
 const auth = getAuth(firebaseAppConfig)
 
 const Home = () =>{
-    const [products, setProducts] = useState([
-        {
-            title:'New Blue Shirts mens',
-            price:1200 ,
-            discount: 50,
-            thumbnail:'/products/e.jpg'
-        },
-        {
-            title:'New Blue Shirts mens',
-            price:1200 ,
-            discount: 20,
-            thumbnail:'/products/b.jpg'
-        },
-        {
-            title:'New Blue Shirts mens',
-            price:1200 ,
-            discount: 15,
-            thumbnail:'/products/c.jpg'
-        },
-        {
-            title:'New Blue Shirts mens',
-            price:1200 ,
-            discount: 15,
-            thumbnail:'/products/d.jpg'
-        },
-        {
-            title:'New Blue Shirts mens',
-            price:1200 ,
-            discount: 10,
-            thumbnail:'/products/e.jpg'
-        },
-        {
-            title:'New Blue Shirts mens',
-            price:1200 ,
-            discount: 15,
-            thumbnail:'/products/f.jpg'
-        },
-        {
-            title:'New Blue Shirts mens',
-            price:1200 ,
-            discount: 15,
-            thumbnail:'/products/g.jpg'
-        },
-        {
-            title:'New Blue Shirts mens',
-            price:1200 ,
-            discount: 15,
-            thumbnail:'/products/i.jpg'
-        },
-        {
-            title:'New Blue Shirts mens',
-            price:1200 ,
-            discount: 15,
-            thumbnail:'/products/j.jpg'
-        },
-        {
-            title:'New Blue Shirts mens',
-            price:1200 ,
-            discount: 15,
-            thumbnail:'/products/k.jpg'
-        },
-        {
-            title:'New Blue Shirts mens',
-            price:1200 ,
-            discount: 15,
-            thumbnail:'/products/l.jpg'
-        },
-        {
-            title:'New Blue Shirts mens',
-            price:1200 ,
-            discount: 15,
-            thumbnail:'/products/f.jpg'
-        }
-    ])
+    const [products, setProducts] = useState([])
 
     const [session, setSession] = useState(null)
 
@@ -100,6 +27,21 @@ const Home = () =>{
             }
         })
     },[])
+
+    useEffect(()=>{
+        const req = async () =>{
+            const snapshot = await getDocs(collection(db, "products"))
+            const tmp = []
+            snapshot.forEach((doc) => {
+                const allProducts = doc.data() 
+                allProducts.id = doc.id
+                console.log(allProducts)
+                tmp.push(allProducts)
+            })
+            setProducts(tmp)
+        }
+        req()
+    })
 
 
     const addToCart = async (item) =>{
@@ -165,9 +107,9 @@ const Home = () =>{
                         {
                             products.map((item,index)=>(
                                 <div key={index} className="bg-white shadow-lg border">
-                                    <img src={item.thumbnail} alt=""/>
+                                    <img src={item.image ? item.image : '/images/pt.jpg'} alt=""/>
                                     <div className="p-2">
-                                        <h1 className="text-lg text-semibold">{item.title}</h1>
+                                        <h1 className="text-lg text-semibold capitalize">{item.title}</h1>
                                         <div className="space-x-2">
                                             <label htmlFor="" className="font-semibold text-lg">Rs.{item.price-(item.price*item.discount)/100}</label>
                                             <del>Rs.{item.price}</del>
