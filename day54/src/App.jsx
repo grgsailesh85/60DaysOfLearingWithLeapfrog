@@ -1,18 +1,20 @@
+import store from "./redux/store"
+import  { Provider } from "react-redux"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Home from "./components/Home"
 import Product from "./components/Product"
-import ProductDetail from "./components/ProductDetails"
+import ProductDetails from "./components/ProductDetails"
 const App = () =>{
   return(
-    <div>
+    <Provider store = {store}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/products" element={<Product/>}/>
-          <Route path="/product-details" element={<ProductDetail/>}/>
+          <Route path="/product-details" element={<ProductDetails/>}/>
         </Routes>
       </BrowserRouter>
-    </div>
+    </Provider>
   )
 }
 export default App 
