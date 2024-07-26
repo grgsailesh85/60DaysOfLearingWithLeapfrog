@@ -1,44 +1,9 @@
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
 const Home = () =>{
-  const customers= [
-    {
-      customerName : 'Sailesh',
-      product : 'Red Shirt Newly Launched',
-      price : '2000',
-      discount : '50'
-    },
-    {
-      customerName : 'Sailesh',
-      product : 'Red Shirt Newly Launched',
-      price : '2000',
-      discount : '50'
-    },
-    {
-      customerName : 'Sailesh',
-      product : 'Red Shirt Newly Launched',
-      price : '2000',
-      discount : '50'
-    },
-    {
-      customerName : 'Sailesh',
-      product : 'Red Shirt Newly Launched',
-      price : '2000',
-      discount : '50'
-    },
-    {
-        customerName : 'Sailesh',
-        product : 'Red Shirt Newly Launched',
-        price : '2000',
-        discount : '50'
-      },
-      {
-        customerName : 'Sailesh',
-        product : 'Red Shirt Newly Launched',
-        price : '2000',
-        discount : '50'
-      },
-  ]
   return(
+
+    
     <div className='bg-gray-200 min-h-screen py-16'>
       <div className='bg-white rounded-lg shadow-lg w-8/12 mx-auto p-6 space-y-8'>
         <div className='flex justify-center'>
