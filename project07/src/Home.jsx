@@ -1,8 +1,18 @@
 import { Link } from "react-router-dom"
-import { useSelector } from "react-redux"
-const Home = () =>{
-  return(
+import { useSelector , useDispatch } from "react-redux"
+import { deleteCustomer } from "./redux/slices/customer"
 
+const Home = () =>{
+  
+  const { customerSlice } = useSelector(res =>res)
+
+  const dispatch = useDispatch()
+
+  const onDeleteCustomer = (index)=>{
+    dispatch(deleteCustomer(index))
+  }
+  
+  return(
     
     <div className='bg-gray-200 min-h-screen py-16'>
       <div className='bg-white rounded-lg shadow-lg w-8/12 mx-auto p-6 space-y-8'>
@@ -30,7 +40,7 @@ const Home = () =>{
           </thead>
           <tbody>
             {
-              customers.map((item, index)=>(
+              customerSlice.map((item, index)=>(
                 <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-rose-50' }>
                   <td>{index+1}</td>
                   <td className='py-3 pl-3'>{item.customerName}</td>
@@ -43,7 +53,8 @@ const Home = () =>{
                         <i className='ri-file-edit-line text-white'></i>
                       </button>
 
-                      <button className='bg-rose-600 w-10 h-10 rounded'>
+                      <button className='bg-rose-600 w-10 h-10 rounded' onClick={()=> onDeleteCustomer(index) }>
+                        
                         <i className='ri-delete-bin-6-line text-white'></i>
                       </button>
                     </div>

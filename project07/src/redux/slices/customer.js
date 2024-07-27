@@ -9,9 +9,13 @@ const customerSlice = createSlice({
                 ...state,
                 action.payload
            ]
-        }
+        },
+        deleteCustomer : (state, action)=>{
+            state.splice(action.payload, 1)
+            return state
+         }
     }
 })
 
-export const { createCustomer } = customerSlice.actions
+export const { createCustomer, deleteCustomer } = customerSlice.actions
 export default customerSlice.reducer
